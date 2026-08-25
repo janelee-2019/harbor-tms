@@ -10,12 +10,10 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 
-
 @SpringBootTest
 @Slf4j
 public class AppTests
 {
-
     @Autowired
     private BatchMapper batchMapper;
 
