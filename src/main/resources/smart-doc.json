@@ -1,0 +1,22 @@
+{
+  "outPath": "./doc",
+  "serverUrl": "http://localhost:8081",
+
+  "packageFilters": "com.lee.tms.modules",
+
+  "sourceCodePaths": [
+    {
+      "path": "src/main/java"
+    }
+  ],
+
+  "requestHeaders": [
+    {
+      "name": "EDMS-Token",
+      "type": "string",
+      "value": "d8e9eef041ed4aa798b0280348641e2a",
+      "desc": "用户鉴权Token",
+      "required": true
+    }
+  ]
+}

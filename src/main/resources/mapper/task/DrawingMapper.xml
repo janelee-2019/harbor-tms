@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lee.tms.modules.task.mapper.DrawingMapper">
+    <resultMap id="drawingResult" type="com.lee.tms.modules.task.entity.Drawing">
+        <!-- 公共字段 -->
+        <result property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateBy" column="update_by"/>
+        <!-- 普通字段 -->
+        <result property="srId" column="sr_id"/>
+        <result property="sn" column="sn"/>
+        <result property="packageId" column="package_id"/>
+        <result property="packageNo" column="package_no"/>
+        <result property="batchId" column="batch_id"/>
+        <result property="batchNo" column="batch_no"/>
+        <result property="drawingId" column="drawing_id"/>
+        <result property="drawingFileName" column="drawing_file_name"/>
+        <result property="drawingNo" column="drawing_no"/>
+        <result property="drawingFileDir" column="drawing_file_dir"/>
+        <result property="drawingCategory" column="drawing_category"/>
+        <result property="drawingType" column="drawing_type"/>
+        <result property="draftMh" column="draft_mh"/>
+        <result property="drafterId" column="drafter_id"/>
+        <result property="proofreadMh" column="proofread_mh"/>
+        <result property="proofreaderId" column="proofreader_id"/>
+        <result property="qcId" column="qc_id"/>
+        <result property="sqcId" column="sqc_id"/>
+        <result property="drawingStatus" column="drawing_status"/>
+        <result property="remark" column="remark"/>
+        <result property="dcNo" column="dc_no"/>
+        <result property="drawingFilePath" column="drawing_file_path"/>
+        <result property="procInstId" column="proc_inst_id"/>
+        <result property="draftReceivedDate" column="draft_received_date"/>
+        <result property="proofreadReceivedDate" column="proofread_received_date"/>
+        <result property="qcReceivedDate" column="qc_received_date"/>
+        <result property="sqcReceivedDate" column="sqc_received_date"/>
+        <result property="draftIssuedDate" column="draft_issued_date"/>
+        <result property="proofreadIssuedDate" column="proofread_issued_date"/>
+        <result property="qcIssuedDate" column="qc_issued_date"/>
+        <result property="sqcIssuedDate" column="sqc_issued_date"/>
+        <result property="draftIssuerId" column="draft_issuer_id"/>
+        <result property="proofreadIssuerId" column="proofread_issuer_id"/>
+        <result property="qcIssuerId" column="qc_issuer_id"/>
+        <result property="sqcIssuerId" column="sqc_issuer_id"/>
+        <result property="draftSubmittedDate" column="draft_submitted_date"/>
+        <result property="proofreadSubmittedDate" column="proofread_submitted_date"/>
+        <result property="qcSubmittedDate" column="qc_submitted_date"/>
+        <result property="sqcSubmittedDate" column="sqc_submitted_date"/>
+        <result property="taskDueDate" column="task_due_date"/>
+        <result property="qcRating" column="qc_rating"/>
+        <result property="qcRatingDate" column="qc_rating_date"/>
+        <!-- 关联对象字段 (如果表字段名以 Id 结尾) -->
+        <association property="user" javaType="com.lee.tms.modules.system.entity.User">
+            <result property="drafterName" column="drafter_name"/>
+            <result property="proofreaderName" column="enployee_name"/>
+            <result property="qcName" column="enployee_name"/>
+            <result property="sqcName" column="enployee_name"/>
+            <result property="procInstName" column="enployee_name"/>
+            <result property="draftIssuerName" column="enployee_name"/>
+            <result property="proofreadIssuerName" column="enployee_name"/>
+            <result property="qcIssuerName" column="enployee_name"/>
+            <result property="sqcIssuerName" column="enployee_name"/>
+        </association>
+    </resultMap>
+</mapper>

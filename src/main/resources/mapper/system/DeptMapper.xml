@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lee.tms.modules.system.mapper.DeptMapper">
+
+    <resultMap id="deptResult" type="com.lee.tms.modules.system.entity.Dept">
+        <id property="id" column="ID"/>
+        <result property="deptCode" column="DEPT_CODE"/>
+        <result property="deptName" column="DEPT_NAME"/>
+        <result property="parentId" column="PARENT_ID"/>
+        <result property="deptLevel" column="DEPT_LEVEL"/>
+        <result property="ancestors" column="ANCESTORS"/>
+        <result property="remark" column="REMARK"/>
+        <result property="companyId" column="COMPANY_ID"/>
+        <result property="deptLeader" column="DEPT_LEADER"/>
+        <association property="company" javaType="com.lee.tms.modules.system.entity.Company">
+            <result property="companyShortName" column="COMPANY_SHORT_NAME"/>
+        </association>
+    </resultMap>
+
+    <select id="selectDeptPage" resultMap="deptResult">
+        select d.*, c.COMPANY_SHORT_NAME
+        from SYS_DEPT d
+        left join SYS_COMPANY c on d.COMPANY_ID = c.ID
+        <where>
+            ${ew.sqlSegment}
+        </where>
+        order by d.COMPANY_ID, d.PARENT_ID, d.DEPT_LEVEL, d.ID
+    </select>
+
+    <select id="selectChildDepts" resultMap="deptResult">
+        select *
+        from SYS_DEPT
+        where FIND_IN_SET(#{deptId}, ANCESTORS) &lt;&gt; 0
+        order by DEPT_NAME
+    </select>
+
+</mapper>

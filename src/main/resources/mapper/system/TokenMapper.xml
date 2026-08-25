@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lee.tms.modules.system.mapper.TokenMapper">
+
+    <resultMap id="tokenResult" type="com.lee.tms.modules.system.entity.Token">
+        <id property="id" column="ID"/>
+        <result property="token" column="TOKEN"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="expireDate" column="EXPIRE_DATE"/>
+        <result property="createDate" column="CREATE_DATE"/>
+        <association property="user" javaType="com.lee.tms.modules.system.entity.User">
+            <id property="id" column="USER_ID"/>
+            <result property="loginName" column="LOGIN_NAME"/>
+            <result property="lastLoginIp" column="LAST_LOGIN_IP"/>
+            <result property="lastLoginDate" column="LAST_LOGIN_DATE"/>
+            <result property="accountStatus" column="ACCOUNT_STATUS"/>
+            <result property="employeeCode" column="EMPLOYEE_CODE"/>
+            <result property="employeeName" column="EMPLOYEE_NAME"/>
+            <result property="deptId" column="DEPT_ID"/>
+        </association>
+        <collection property="roles" ofType="com.lee.tms.modules.system.entity.Role">
+            <result property="roleKey" column="ROLE_KEY"/>
+            <result property="roleLevel" column="ROLE_LEVEL"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectTokenWithUser" resultMap="tokenResult">
+        select t.*,
+               u.ID as USER_ID,
+               u.LOGIN_NAME,
+               u.LAST_LOGIN_IP,
+               u.LAST_LOGIN_DATE,
+               u.ACCOUNT_STATUS,
+               u.EMPLOYEE_CODE,
+               u.EMPLOYEE_NAME,
+               u.DEPT_ID,
+               r.ROLE_KEY,
+               r.ROLE_LEVEL
+        from SYS_TOKEN t
+                 left join SYS_USER u on t.USER_ID = u.ID
+                 left join SYS_USER_ROLE ur on u.ID = ur.USER_ID
+                 left join SYS_ROLE r on ur.ROLE_ID = r.ID
+        where t.TOKEN = #{token}
+          and u.DEL_FLAG = 0
+    </select>
+
+</mapper>

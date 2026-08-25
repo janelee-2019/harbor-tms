@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lee.tms.modules.system.mapper.UserMapper">
+
+    <resultMap id="userResult" type="com.lee.tms.modules.system.entity.User">
+        <id property="id" column="ID"/>
+        <result property="loginName" column="LOGIN_NAME"/>
+        <result property="loginPassword" column="LOGIN_PASSWORD"/>
+        <result property="salt" column="SALT"/>
+        <result property="lastLoginIp" column="LAST_LOGIN_IP"/>
+        <result property="lastLoginDate" column="LAST_LOGIN_DATE"/>
+        <result property="createDate" column="CREATE_DATE"/>
+        <result property="updateDate" column="UPDATE_DATE"/>
+        <result property="passwordUpdateDate" column="PASSWORD_UPDATE_DATE"/>
+        <result property="creatorId" column="CREATOR_ID"/>
+        <result property="updaterId" column="UPDATER_ID"/>
+        <result property="remark" column="REMARK"/>
+        <result property="accountStatus" column="ACCOUNT_STATUS"/>
+        <result property="employeeCode" column="EMPLOYEE_CODE"/>
+        <result property="employeeName" column="EMPLOYEE_NAME"/>
+        <result property="employeeTel" column="EMPLOYEE_TEL"/>
+        <result property="employeeEmail" column="EMPLOYEE_EMAIL"/>
+        <result property="employeeAddress" column="EMPLOYEE_ADDRESS"/>
+        <result property="employeePicture" column="EMPLOYEE_PICTURE"/>
+        <result property="employeeSex" column="EMPLOYEE_SEX"/>
+        <result property="deptId" column="DEPT_ID"/>
+        <result property="delFlag" column="DEL_FLAG"/>
+        <association property="dept" javaType="com.lee.tms.modules.system.entity.Dept">
+            <result property="deptName" column="DEPT_NAME"/>
+        </association>
+        <association property="company" javaType="com.lee.tms.modules.system.entity.Company">
+            <result property="companyName" column="COMPANY_NAME"/>
+            <result property="companyShortName" column="COMPANY_SHORT_NAME"/>
+        </association>
+        <collection property="roles" ofType="com.lee.tms.modules.system.entity.Role">
+            <result property="id" column="ROLE_ID"/>
+            <result property="roleName" column="ROLE_NAME"/>
+            <result property="roleKey" column="ROLE_KEY"/>
+            <result property="roleLevel" column="ROLE_LEVEL"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectAllUserList" resultMap="userResult">
+        select u.ID, U.employee_name
+        from SYS_USER u
+    </select>
+
+    <sql id="selectUserVo">
+        select *
+        from (select * from SYS_USER <where>${ew.sqlSegment}</where>) u
+        left join SYS_DEPT d on u.DEPT_ID = d.ID
+    </sql>
+
+    <select id="selectUserList" resultMap="userResult">
+        select *
+        from (select * from SYS_USER ${userEw.customSqlSegment}) u
+                 left join SYS_USER_ROLE ur on u.ID = ur.USER_ID
+                 join (select * from SYS_ROLE ${roleEw.customSqlSegment}) r on ur.ROLE_ID = r.ID
+    </select>
+
+    <select id="selectUser" resultMap="userResult">
+        <include refid="selectUserVo"/>
+    </select>
+
+    <select id="selectUserPage" resultMap="userResult">
+        select
+        u.*,
+        d.DEPT_NAME,
+        c.COMPANY_NAME,
+        c.COMPANY_SHORT_NAME,
+        r.ROLE_NAME
+        from SYS_USER u
+        left join SYS_DEPT d on u.DEPT_ID = d.ID
+        left join SYS_COMPANY c on d.COMPANY_ID = c.ID
+        left join SYS_USER_ROLE ur on u.ID = ur.USER_ID
+        left join SYS_ROLE r on ur.ROLE_ID = r.ID
+        <where>
+            ${ew.sqlSegment}
+        </where>
+    </select>
+
+    <select id="selectUserById" resultMap="userResult">
+        select u.*,
+               r.ID as ROLE_ID
+        from SYS_USER u
+                 left join SYS_USER_ROLE ur on u.ID = ur.USER_ID
+                 left join SYS_ROLE r on ur.ROLE_ID = r.ID
+        where u.ID = #{userId}
+          and u.ID &lt;&gt; 0
+          and DEL_FLAG = 0
+    </select>
+
+</mapper>

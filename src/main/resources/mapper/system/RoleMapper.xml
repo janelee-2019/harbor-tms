@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lee.tms.modules.system.mapper.RoleMapper">
+
+    <resultMap id="roleResult" type="com.lee.tms.modules.system.entity.Role">
+        <id property="id" column="ID"/>
+        <result property="roleKey" column="ROLE_KEY"/>
+        <result property="roleName" column="ROLE_NAME"/>
+        <result property="roleLevel" column="ROLE_LEVEL"/>
+        <result property="createDate" column="CREATE_DATE"/>
+        <result property="updateDate" column="UPDATE_DATE"/>
+        <result property="creatorId" column="CREATOR_ID"/>
+        <result property="updaterId" column="UPDATER_ID"/>
+        <result property="remark" column="REMARK"/>
+    </resultMap>
+
+    <sql id="selectRoleVo">
+        select distinct r.ID, r.ROLE_KEY, r.ROLE_NAME
+        from SYS_ROLE r
+                 left join SYS_USER_ROLE ur on r.ID = ur.ROLE_ID
+                 left join SYS_USER u on ur.USER_ID = u.ID
+                 left join SYS_DEPT d on u.DEPT_ID = d.ID
+    </sql>
+
+    <select id="selectRolesByUserId" resultMap="roleResult">
+        <include refid="selectRoleVo"/>
+        where ur.USER_ID = #{userId}
+    </select>
+
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lee.tms.modules.task.mapper.ProjectSummaryMapper">
+    <resultMap id="projectSummaryResult" type="com.lee.tms.modules.task.entity.ProjectSummary">
+        <!-- 公共字段 -->
+        <result property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateBy" column="update_by"/>
+        <!-- 普通字段 -->
+        <result property="sn" column="sn"/>
+        <result property="srNo" column="sr_no"/>
+        <result property="dcNo" column="dc_no"/>
+        <result property="affiliateId" column="affiliate_id"/>
+        <result property="srType" column="sr_type"/>
+        <result property="srReceivedDate" column="sr_received_date"/>
+        <result property="tpSubmittedDate" column="tp_submitted_date"/>
+        <result property="tpApprovedDate" column="tp_approved_date"/>
+        <result property="cpSubmittedDate" column="cp_submitted_date"/>
+        <result property="cpApprovedDate" column="cp_approved_date"/>
+        <result property="amccSubmittedDate" column="amcc_submitted_date"/>
+        <result property="amccApprovedDate" column="amcc_approved_date"/>
+        <result property="srStartDate" column="sr_start_date"/>
+        <result property="srTargetDate" column="sr_target_date"/>
+        <result property="srCompletedDate" column="sr_completed_date"/>
+        <result property="srPlanWeeks" column="sr_plan_weeks"/>
+        <result property="taskStatus" column="task_status"/>
+        <result property="siteVisit" column="site_visit"/>
+        <result property="status" column="status"/>
+        <result property="epmCurrentStatus" column="epm_current_status"/>
+        <result property="approvedMh" column="approved_mh"/>
+        <result property="consumedMh" column="consumed_mh"/>
+        <result property="remainingMh" column="remaining_mh"/>
+        <result property="taskProgress" column="task_progress"/>
+        <result property="budgetAwarded" column="budget_awarded"/>
+        <result property="remark" column="remark"/>
+        <result property="isDistributed" column="is_distributed"/>
+        <result property="type" column="type"/>
+        <result property="projectTitle" column="project_title"/>
+        <result property="poNo" column="po_no"/>
+        <result property="spsManager" column="sps_manager"/>
+        <result property="lastSubmitDate" column="last_submit_date"/>
+        <result property="srActualExecutionDays" column="sr_actual_execution_days"/>
+        <result property="afterLastSubmitToSabicForApprovalDay" column="after_last_submit_to_sabic_for_approval_day"/>
+        <result property="executionSrDurationDay" column="execution_sr_duration_day"/>
+        <!-- 关联对象字段 (如果表字段名以 Id 结尾) -->
+        <association property="dept" javaType="com.lee.tms.modules.system.entity.Dept">
+            <result property="affiliateName" column="dept_name"/>
+        </association>
+    </resultMap>
+</mapper>

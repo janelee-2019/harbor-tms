@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lee.tms.modules.system.mapper.DictTypeMapper">
+
+    <resultMap id="dictTypeResult" type="com.lee.tms.modules.system.entity.DictType">
+        <id property="id" column="ID"/>
+        <result property="dictKey" column="DICT_KEY"/>
+        <result property="dictName" column="DICT_NAME"/>
+        <result property="remark" column="REMARK"/>
+        <collection property="dictDataList" ofType="com.lee.tms.modules.system.entity.DictData">
+            <id property="id" column="DICT_DATA_ID"/>
+            <result property="dictLabel" column="DICT_LABEL"/>
+            <result property="dictValue" column="DICT_VALUE"/>
+            <result property="dictSort" column="DICT_SORT"/>
+            <result property="remark" column="DICT_DATA_REMARK"/>
+            <result property="dictTypeId" column="DICT_TYPE_ID"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectAllDictTypes" resultMap="dictTypeResult">
+        select dt.*,
+               dd.ID     as DICT_DATA_ID,
+               dd.DICT_LABEL,
+               dd.DICT_VALUE,
+               dd.DICT_SORT,
+               dd.REMARK as DICT_DATA_REMARK,
+               dd.DICT_TYPE_ID
+        from SYS_DICT_TYPE dt
+                 left join SYS_DICT_DATA dd on dt.ID = dd.DICT_TYPE_ID
+        order by dt.ID, dd.DICT_SORT
+    </select>
+
+    <!-- 修复：补全 dt.* 主表字段，改用 LEFT JOIN -->
+    <select id="selectByDictKey" resultMap="dictTypeResult">
+        SELECT
+            dt.ID,
+            dt.DICT_KEY,
+            dt.DICT_NAME,
+            dt.REMARK,
+            dd.ID          as DICT_DATA_ID,
+            dd.DICT_LABEL,
+            dd.DICT_VALUE,
+            dd.DICT_SORT,
+            dd.REMARK      as DICT_DATA_REMARK,
+            dd.DICT_TYPE_ID
+        FROM SYS_DICT_TYPE dt
+                 LEFT JOIN SYS_DICT_DATA dd ON dt.ID = dd.DICT_TYPE_ID
+        WHERE dt.DICT_KEY = #{dictKey}
+        ORDER BY dd.DICT_SORT ASC, dd.ID ASC
+    </select>
+
+</mapper>

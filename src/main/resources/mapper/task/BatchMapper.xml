@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lee.tms.modules.task.mapper.BatchMapper">
+    <resultMap id="batchResult" type="com.lee.tms.modules.task.entity.Batch">
+        <!-- 公共字段 -->
+        <result property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateBy" column="update_by"/>
+        <!-- 普通字段 -->
+        <result property="srId" column="sr_id"/>
+        <result property="sn" column="sn"/>
+        <result property="packageId" column="package_id"/>
+        <result property="packageNo" column="package_no"/>
+        <result property="batchNo" column="batch_no"/>
+        <result property="groupId" column="group_id"/>
+        <result property="batchQuantity" column="batch_quantity"/>
+        <result property="batchSpecMh" column="batch_spec_mh"/>
+        <result property="batchIssueMh" column="batch_issue_mh"/>
+        <result property="batchTargetDate" column="batch_target_date"/>
+        <result property="batchCompletedDate" column="batch_completed_date"/>
+        <result property="batchStartDate" column="batch_start_date"/>
+        <result property="qcRating" column="qc_rating"/>
+        <result property="qcCompletedDate" column="qc_completed_date"/>
+        <result property="remark" column="remark"/>
+        <result property="issueDate" column="issue_date"/>
+        <result property="issuerId" column="issuer_id"/>
+        <result property="batchWorkDays" column="batch_work_days"/>
+        <result property="qcId" column="qc_id"/>
+        <result property="isIssued" column="is_issued"/>
+        <result property="isDistributed" column="is_distributed"/>
+        <result property="isRated" column="is_rated"/>
+        <!-- 关联对象字段 (如果表字段名以 Id 结尾) -->
+        <association property="user" javaType="com.lee.tms.modules.system.entity.User">
+            <result property="issuerName" column="enployee_name"/>
+            <result property="qcName" column="enployee_name"/>
+        </association>
+    </resultMap>
+</mapper>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lee.tms.modules.system.mapper.FunctionMapper">
+
+    <resultMap id="functionResult" type="com.lee.tms.modules.system.entity.Function">
+        <id property="id" column="ID"/>
+        <result property="functionKey" column="FUNCTION_KEY"/>
+        <result property="functionName" column="FUNCTION_NAME"/>
+        <result property="parentId" column="PARENT_ID"/>
+        <result property="functionSort" column="FUNCTION_SORT"/>
+        <result property="functionType" column="FUNCTION_TYPE"/>
+        <result property="functionStatus" column="FUNCTION_STATUS"/>
+        <result property="remark" column="REMARK"/>
+        <result property="ancestors" column="ANCESTORS"/>
+        <result property="functionLevel" column="FUNCTION_LEVEL"/>
+        <result property="vuePath" column="VUE_PATH"/>
+        <result property="vueComponent" column="VUE_COMPONENT"/>
+        <result property="vueRedirect" column="VUE_REDIRECT"/>
+        <result property="vueName" column="VUE_NAME"/>
+        <result property="vueTitle" column="VUE_TITLE"/>
+        <result property="vueIcon" column="VUE_ICON"/>
+        <result property="vueAffix" column="VUE_AFFIX"/>
+        <result property="vueBadge" column="VUE_BADGE"/>
+        <collection property="roles" ofType="com.lee.tms.modules.system.entity.Role">
+            <id property="id" column="ROLE_ID"/>
+            <result property="roleKey" column="ROLE_KEY"/>
+        </collection>
+    </resultMap>
+
+    <sql id="selectDistinctFunctionVo">
+        select distinct f.ID,
+                        IFNULL(f.FUNCTION_KEY, '') as FUNCTION_KEY,
+                        f.FUNCTION_NAME,
+                        f.PARENT_ID,
+                        f.FUNCTION_SORT,
+                        f.FUNCTION_TYPE,
+                        f.FUNCTION_STATUS,
+                        f.REMARK,
+                        f.ANCESTORS,
+                        f.FUNCTION_LEVEL,
+                        f.VUE_PATH,
+                        f.VUE_COMPONENT,
+                        f.VUE_REDIRECT,
+                        f.VUE_NAME,
+                        f.VUE_TITLE,
+                        f.VUE_ICON,
+                        f.VUE_AFFIX,
+                        f.VUE_BADGE,
+                        r.ID as ROLE_ID,
+                        r.ROLE_KEY
+        from SYS_FUNCTION f
+    </sql>
+
+    <sql id="selectFunctionVo">
+        select f.ID,
+               IFNULL(f.FUNCTION_KEY, '') as FUNCTION_KEY,
+               f.FUNCTION_NAME,
+               f.PARENT_ID,
+               f.FUNCTION_SORT,
+               f.FUNCTION_TYPE,
+               f.FUNCTION_STATUS,
+               f.REMARK,
+               f.ANCESTORS,
+               f.FUNCTION_LEVEL,
+               f.VUE_PATH,
+               f.VUE_COMPONENT,
+               f.VUE_REDIRECT,
+               f.VUE_NAME,
+               f.VUE_TITLE,
+               f.VUE_ICON,
+               f.VUE_AFFIX,
+               f.VUE_BADGE
+        from SYS_FUNCTION f
+    </sql>
+
+    <select id="selectFunctionKeysByUserId" resultType="String">
+        select distinct f.FUNCTION_KEY
+        from SYS_FUNCTION f
+                 left join SYS_ROLE_FUNCTION rf on f.ID = rf.FUNCTION_ID
+                 left join SYS_USER_ROLE ur on rf.ROLE_ID = ur.ROLE_ID
+                 left join SYS_ROLE r on ur.ROLE_ID = r.ID
+        where f.FUNCTION_KEY is not null
+          and ur.USER_ID = #{userId}
+    </select>
+
+    <select id="selectChildFunctions" resultMap="functionResult">
+        select *
+        from SYS_FUNCTION
+        where FIND_IN_SET(#{functionId}, ANCESTORS) &lt;&gt; 0
+    </select>
+
+    <select id="selectAllFunctions" resultMap="functionResult">
+        <include refid="selectFunctionVo"/>
+        where f.FUNCTION_STATUS = '0'
+        order by f.PARENT_ID, f.FUNCTION_SORT
+    </select>
+
+    <select id="selectAllFunctionMenus" resultMap="functionResult">
+        <include refid="selectDistinctFunctionVo"/>
+        left join SYS_ROLE_FUNCTION rf on f.ID = rf.FUNCTION_ID
+        left join SYS_USER_ROLE ur on rf.ROLE_ID = ur.ROLE_ID
+        left join SYS_ROLE r on ur.ROLE_ID = r.ID
+        where f.FUNCTION_TYPE = 'menu'
+        and f.FUNCTION_STATUS = '0'
+        order by f.PARENT_ID, f.FUNCTION_SORT
+    </select>
+
+    <select id="selectFunctionMenusByUserId" resultMap="functionResult">
+        <include refid="selectDistinctFunctionVo"/>
+        left join SYS_ROLE_FUNCTION rf on f.ID = rf.FUNCTION_ID
+        left join SYS_USER_ROLE ur on rf.ROLE_ID = ur.ROLE_ID
+        left join SYS_ROLE r on ur.ROLE_ID = r.ID
+        where ur.USER_ID = #{userId}
+        and f.FUNCTION_TYPE = 'menu'
+        and f.FUNCTION_STATUS = '0'
+        order by f.PARENT_ID, f.FUNCTION_SORT
+    </select>
+
+    <select id="selectFunctionsByRoleId" resultMap="functionResult">
+        <include refid="selectFunctionVo"/>
+        left join SYS_ROLE_FUNCTION rf on f.ID = rf.FUNCTION_ID
+        where rf.ROLE_ID = #{roleId}
+        and f.FUNCTION_STATUS = '0'
+        order by f.PARENT_ID, f.FUNCTION_SORT
+    </select>
+
+    <select id="selectFunctionsStrictlyByRoleId" resultMap="functionResult">
+        <include refid="selectFunctionVo"/>
+        left join SYS_ROLE_FUNCTION rf on f.ID = rf.FUNCTION_ID
+        where rf.ROLE_ID = #{roleId}
+        and f.FUNCTION_STATUS = '0'
+        and ( SELECT count( * ) FROM SYS_FUNCTION ff WHERE FIND_IN_SET ( f.ID, ANCESTORS ) &lt;&gt; 0 ) = 0
+        order by f.PARENT_ID, f.FUNCTION_SORT
+    </select>
+
+</mapper>
