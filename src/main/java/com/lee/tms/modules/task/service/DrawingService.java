@@ -41,14 +41,6 @@ public interface DrawingService extends IService<Drawing>
 
     void receiveSqcTask(List<Long> drawingIds);
 
-    void transferDraftTask(DrawingTaskTransferBody body);
-
-    void transferProofreadTask(DrawingTaskTransferBody body);
-
-    void transferQcTask(DrawingTaskTransferBody body);
-
-    void transferSqcTask(DrawingTaskTransferBody body);
-
     void submitDraftTask(List<Long> drawingIds);
 
     void submitProofreadTask(DrawingTaskSubmitPassedBody body);
@@ -56,16 +48,6 @@ public interface DrawingService extends IService<Drawing>
     void submitQcTask(DrawingTaskSubmitPassedBody body);
 
     void submitSqcTask(DrawingTaskSubmitPassedBody body);
-
-    void cancelSubmitDraftTask(List<Long> drawingIds);
-
-    void cancelSubmitProofreadTask(List<Long> drawingIds);
-
-    void cancelSubmitQcTask(List<Long> drawingIds);
-
-    void cancelSubmitSqcTask(List<Long> drawingIds);
-
-    void cancelDrawingTask(DrawingTaskCancelBody body);
 
 
     Drawing getDetail(Long id);

@@ -191,56 +191,6 @@ public class DrawingController
         return R.ok();
     }
 
-    /* ==================== 任务转办 ==================== */
-
-    /**
-     * 转办绘图任务
-     */
-    @RequiresPermissions("task:drawing:transfer_draft")
-    @ApiLog(module = "", tag = "转办绘图任务")
-    @PostMapping("transferDraftTask")
-    public R transferDraftTask(@Validated @RequestBody DrawingTaskTransferBody body)
-    {
-        drawingService.transferDraftTask(body);
-        return R.ok();
-    }
-
-    /**
-     * 转办校对任务
-     */
-    @RequiresPermissions("task:drawing:transfer_proofread")
-    @ApiLog(module = "", tag = "转办校对任务")
-    @PostMapping("transferProofreadTask")
-    public R transferProofreadTask(@Validated @RequestBody DrawingTaskTransferBody body)
-    {
-        drawingService.transferProofreadTask(body);
-        return R.ok();
-    }
-
-    /**
-     * 转办初级质检任务
-     */
-    @RequiresPermissions("task:drawing:transfer_qc")
-    @ApiLog(module = "", tag = "转办初级质检任务")
-    @PostMapping("transferQcTask")
-    public R transferQcTask(@Validated @RequestBody DrawingTaskTransferBody body)
-    {
-        drawingService.transferQcTask(body);
-        return R.ok();
-    }
-
-    /**
-     * 转办高级质检任务
-     */
-    @RequiresPermissions("task:drawing:transfer_sqc")
-    @ApiLog(module = "", tag = "转办高级质检任务")
-    @PostMapping("transferSqcTask")
-    public R transferSqcTask(@Validated @RequestBody DrawingTaskTransferBody body)
-    {
-        drawingService.transferSqcTask(body);
-        return R.ok();
-    }
-
     /* ==================== 任务提交 ==================== */
 
     /**
@@ -288,70 +238,6 @@ public class DrawingController
     public R submitSqcTask(@Validated @RequestBody DrawingTaskSubmitPassedBody body)
     {
         drawingService.submitSqcTask(body);
-        return R.ok();
-    }
-
-    /* ==================== 任务取消提交 ==================== */
-
-    /**
-     * 取消提交绘图任务
-     */
-    @RequiresPermissions("task:drawing:cancel_submit_draft")
-    @ApiLog(module = "", tag = "取消提交绘图任务")
-    @PostMapping("cancelSubmitDraftTask")
-    public R cancelSubmitDraftTask(@Validated @RequestBody DefaultOpByIdsBody body)
-    {
-        drawingService.cancelSubmitDraftTask(body.getIds());
-        return R.ok();
-    }
-
-    /**
-     * 取消提交校对任务
-     */
-    @RequiresPermissions("task:drawing:cancel_submit_proofread")
-    @ApiLog(module = "", tag = "取消提交校对任务")
-    @PostMapping("cancelSubmitProofreadTask")
-    public R cancelSubmitProofreadTask(@Validated @RequestBody DefaultOpByIdsBody body)
-    {
-        drawingService.cancelSubmitProofreadTask(body.getIds());
-        return R.ok();
-    }
-
-    /**
-     * 取消提交初级质检任务
-     */
-    @RequiresPermissions("task:drawing:cancel_submit_qc")
-    @ApiLog(module = "", tag = "取消提交初级质检任务")
-    @PostMapping("cancelSubmitQcTask")
-    public R cancelSubmitQcTask(@Validated @RequestBody DefaultOpByIdsBody body)
-    {
-        drawingService.cancelSubmitQcTask(body.getIds());
-        return R.ok();
-    }
-
-    /**
-     * 取消提交高级质检任务
-     */
-    @RequiresPermissions("task:drawing:cancel_submit_sqc")
-    @ApiLog(module = "", tag = "取消提交高级质检任务")
-    @PostMapping("cancelSubmitSqcTask")
-    public R cancelSubmitSqcTask(@Validated @RequestBody DefaultOpByIdsBody body)
-    {
-        drawingService.cancelSubmitSqcTask(body.getIds());
-        return R.ok();
-    }
-
-    /* ==================== 任务取消 ==================== */
-
-    /**
-     * 取消图纸任务
-     */
-    @RequiresPermissions("task:drawing:cancel")
-    @ApiLog(module = "", tag = "取消图纸任务")
-    @PostMapping("cancelDrawingTask")
-    public R cancelDrawingTask(@Validated @RequestBody DrawingTaskCancelBody body)
-    {
-        drawingService.cancelDrawingTask(body);
         return R.ok();
     }
 }
